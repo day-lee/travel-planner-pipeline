@@ -1,0 +1,45 @@
+# --- Secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Generated data (re-created by run_pipeline.py) ---
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/uk_bank_holidays/
+!data/raw/uk_bank_holidays/.gitkeep
+!data/raw/weather/
+!data/raw/weather/.gitkeep
+*.duckdb
+*.duckdb.wal
+
+
+# --- Generated site output (style.css stays tracked) ---
+dashboard/index.html
+dashboard/data.json
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- Logs ---
+logs/
+*.log
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- agent docs ---
+.github/
+!.github/copilot-instruction.md
+docs/
