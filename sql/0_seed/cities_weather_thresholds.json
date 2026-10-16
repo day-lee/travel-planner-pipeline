@@ -1,0 +1,14 @@
+[{
+    "city_id": "ICN",
+    "city_name": "Seoul",
+    "country": "South Korea",
+    "latitude": 37.5665,
+    "longitude": 126.9780,
+    "timezone": "Asia/Seoul",
+    "min_apparent_temp_c": 3.0,
+    "max_apparent_temp_c": 34.0,
+    "max_daily_rain_mm": 35.0,
+    "max_wind_speed_kmh": 35.0,
+    "max_wind_gust_kmh": 55.0
+  }
+]
