@@ -9,9 +9,6 @@ WITH raw AS (
             REGEXP_EXTRACT(filename, '_([0-9]{4}-[0-9]{2}-[0-9]{2})[.]json$', 1)
             AS DATE
         ) AS end_date,
-        latitude,
-        longitude,
-        timezone,
         daily
     FROM read_json('data/weather/*.json', filename = true)
 ),
@@ -29,9 +26,6 @@ selected AS (
 unnested AS (
     SELECT
         city_id,
-        latitude,
-        longitude,
-        timezone,
         UNNEST(daily.time)                     AS weather_date,
         UNNEST(daily.precipitation_sum)        AS precipitation_sum_mm,
         UNNEST(daily.apparent_temperature_max) AS apparent_temperature_max_c,
@@ -43,9 +37,6 @@ unnested AS (
 
 SELECT
     city_id,
-    CAST(latitude AS DOUBLE)                   AS latitude,
-    CAST(longitude AS DOUBLE)                  AS longitude,
-    timezone,
     CAST(weather_date AS DATE)                 AS weather_date,
     CAST(precipitation_sum_mm AS DOUBLE)       AS precipitation_sum_mm,
     CAST(apparent_temperature_max_c AS DOUBLE) AS apparent_temperature_max_c,
