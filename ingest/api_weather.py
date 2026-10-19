@@ -12,6 +12,7 @@ OPEN_METEO_WEATHER_URL = "https://archive-api.open-meteo.com/v1/archive"
 START_DATE = "2020-01-01"
 END_DATE = f"{CURRENT_YEAR - 1}-12-31"
 WEATHER_RAW_DIR = Path("data/weather")
+CITIES_PATH = Path("sql/0_seed/cities_weather_thresholds.json")
 
 DAILY_VARIABLES = (
     "precipitation_sum",
@@ -20,15 +21,6 @@ DAILY_VARIABLES = (
     "wind_speed_10m_max",
     "wind_gusts_10m_max",
 )
-
-CITY = {
-    "city_id": "ICN",
-    "city_name": "Seoul",
-    "country": "South Korea",
-    "latitude": 37.5665,
-    "longitude": 126.9780,
-    "timezone": "Asia/Seoul",
-}
 
 def build_params(city: dict) -> dict:
     """Build Open-Meteo query parameters for one city."""
@@ -49,27 +41,33 @@ def build_output_path(city: dict) -> Path:
 
 
 def main() -> None:
-    """Fetch and persist daily weather data for the configured city."""
+    """Fetch and persist daily weather data for every configured city."""
     try:
-        response = requests.get(
-            OPEN_METEO_WEATHER_URL,
-            params=build_params(CITY),
-            timeout=30,
-        )
-        response.raise_for_status()
-        weather = response.json()
-    except requests.exceptions.RequestException as error:
-        raise RuntimeError(
-            f"Failed to fetch weather data for {CITY['city_name']}."
-        ) from error
+        cities = json.loads(CITIES_PATH.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as error:
+        raise RuntimeError(f"Failed to load city data from {CITIES_PATH}.") from error
 
-    output_path = build_output_path(CITY)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(
-        json.dumps(weather, indent=2) + "\n",
-        encoding="utf-8",
-    )
-    print(f"Saved weather data for {CITY['city_name']} to {output_path}")
+    WEATHER_RAW_DIR.mkdir(parents=True, exist_ok=True)
+    for city in cities:
+        try:
+            response = requests.get(
+                OPEN_METEO_WEATHER_URL,
+                params=build_params(city),
+                timeout=30,
+            )
+            response.raise_for_status()
+            weather = response.json()
+        except requests.exceptions.RequestException as error:
+            raise RuntimeError(
+                f"Failed to fetch weather data for {city['city_name']}."
+            ) from error
+
+        output_path = build_output_path(city)
+        output_path.write_text(
+            json.dumps(weather, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        print(f"Saved weather data for {city['city_name']} to {output_path}")
 
 
 if __name__ == "__main__":
