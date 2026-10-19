@@ -41,6 +41,8 @@ SELECT
     week_of_year, 
     COUNT(*)                                                    AS years_of_data,
     ROUND(SUM(good_days) / SUM(days_with_data), 2) AS good_day_share,
+    -- Business rule: good week means at least 60% good days, i.e. about 4 of 7 days on average.
+    SUM(good_days) / SUM(days_with_data) >= 0.6                 AS is_good_weather,
     ROUND(SUM(comfortable_temp_days) / SUM(days_with_data), 2)  AS comfortable_temp_share,
     ROUND(SUM(low_rain_days) / SUM(days_with_data), 2)          AS low_rain_share,
     ROUND(SUM(calm_wind_days) / SUM(days_with_data), 2)         AS calm_wind_share
