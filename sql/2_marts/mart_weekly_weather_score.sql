@@ -40,7 +40,7 @@ SELECT
     city_id,
     week_of_year, 
     COUNT(*)                                                    AS years_of_data,
-    ROUND(SUM(good_days) / SUM(days_with_data), 2) AS is_good_day_share,
+    ROUND(SUM(good_days) / SUM(days_with_data), 2) AS good_day_share,
     ROUND(SUM(comfortable_temp_days) / SUM(days_with_data), 2)  AS comfortable_temp_share,
     ROUND(SUM(low_rain_days) / SUM(days_with_data), 2)          AS low_rain_share,
     ROUND(SUM(calm_wind_days) / SUM(days_with_data), 2)         AS calm_wind_share
