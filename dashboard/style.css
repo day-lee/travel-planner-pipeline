@@ -22,7 +22,6 @@ body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.45 In
 .hero { margin-bottom: 30px; }
 .eyebrow { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 h1 { margin: 8px 0; font-family: Georgia, serif; font-size: clamp(30px, 4vw, 52px); font-weight: 500; letter-spacing: -.03em; }
-.hero p:last-child { color: var(--muted); font-size: 18px; }
 .controls { display: flex; align-items: flex-start; gap: 35px; margin-bottom: 22px; }
 .plan-control { display: flex; min-width: 155px; flex-direction: column; align-items: flex-start; gap: 14px; }
 label, .picker-heading span { font-weight: 700; }
@@ -95,3 +94,4 @@ a { color: inherit; }
 @media (max-width: 1050px) { .calendar { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 760px) { .controls { display: block; } .city-picker { margin-top: 20px; } .calendar { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 500px) { .page-shell { padding: 28px 14px; } .calendar { grid-template-columns: 1fr; } .city-buttons { grid-template-columns: repeat(2, 1fr); } .picker-heading { display: block; } }
+.hint {color:#d53e4f; font-weight: 700; font-size: 13px; }
