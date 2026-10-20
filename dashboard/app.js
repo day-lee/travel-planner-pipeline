@@ -111,6 +111,10 @@ function renderCalendar() {
       const key = dateKey(selectedYear, monthIndex, day);
       const holiday = schoolHoliday(key);
       const bank = bankHoliday(key);
+      const tooltip = [
+        bank?.name,
+        holiday && `${holiday.name} · ${holiday.start_date} ~ ${holiday.end_date}`,
+      ].filter(Boolean).join(" | ");
       const strips = selectedCities.map((cityId) => {
         const goodDates = data.weather[cityId]?.good_dates?.[String(selectedYear)] ?? [];
         if (!goodDates.includes(key)) return "";
@@ -121,8 +125,8 @@ function renderCalendar() {
         return `<span class="weather-strip ${shoulder ? "is-shoulder" : ""}"
           style="background:${COLORS[cityId]}" title="${cityName(cityId)} · good weather on ${percent}% of days in past years"></span>`;
       }).join("");
-      cells.push(`<div class="day ${bank ? "is-bank" : ""}" ${bank ? `data-tooltip="${bank.name.replaceAll('"', "&quot;")}"` : ""}>
-        <span class="day-number">${day}</span><div class="strips">${strips}${holiday ? `<span class="school-strip" title="${holiday.name} · ${holiday.start_date} ~ ${holiday.end_date}"></span>` : ""}</div>
+      cells.push(`<div class="day ${bank ? "is-bank" : ""}" ${tooltip ? `data-tooltip="${tooltip.replaceAll('"', "&quot;")}"` : ""}>
+        <span class="day-number">${day}</span><div class="strips">${strips}${holiday ? '<span class="school-strip"></span>' : ""}</div>
       </div>`);
     }
     const cities = monthCities(monthIndex).map((cityId) =>
