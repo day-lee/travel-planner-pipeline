@@ -36,6 +36,6 @@ logs/
 Thumbs.db
 
 # --- agent docs ---
-.github/
-!.github/copilot-instruction.md
+
+.github/copilot-instruction.md
 docs/
