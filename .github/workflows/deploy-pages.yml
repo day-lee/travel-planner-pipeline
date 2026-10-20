@@ -1,9 +1,11 @@
-name: Deploy dashboard to GitHub Pages
+name: Build data and deploy dashboard
 
 on:
   push:
     branches: [main]
-  workflow_dispatch:
+  schedule:
+    - cron: "17 6 10 1 *"   # every year on 10 January, 06:17 UTC - Open-Meteo weather data is updated later in the month.
+  workflow_dispatch:         # run by hand from the Actions tab - Button appears
 
 permissions:
   contents: read
@@ -15,13 +17,31 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch the API data and build the warehouse
+        run: python run_pipeline.py --fetch
+
+      - name: Run data quality tests (missing values, duplicates, implausible values)
+        run: pytest tests/test_models.py
+
+      - name: Build site data
+        run: python build_site.py
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
