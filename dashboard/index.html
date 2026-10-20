@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Travel planner</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="hero">
+        <p class="eyebrow">Travel planner for J&D</p>
+        <h1> When should we pack our bags? 🧳 </h1>
+        <span class="subtitle">Let's find the best time and place to travel! ✈️ </span>
+      </header>
+
+      <section class="controls" aria-label="Planner filters">
+        <div class="plan-control">
+          <label for="year-select">Plan for
+            <select id="year-select"></select>
+          </label>
+          <button id="clear-selections" class="clear-button" type="button">Clear all selections</button>
+        </div>
+        <div class="city-picker">
+          <div class="picker-heading">
+            <span>Choose destinations</span>
+            <small>Up to 3 cities can be selected</small>
+          </div>
+          <div id="city-buttons" class="city-buttons"></div>
+        </div>
+      </section>
+
+      <section class="legend" aria-label="Calendar legend">
+        <span><i class="legend-weather"></i>Good weather week</span>
+        <span><i class="legend-school"></i>Estimated school holiday</span>
+        <span><i class="legend-bank">15</i>Bank holiday</span>
+        <span class="note">Weather scores are based on past years (2020–2025). School holidays are estimates and start from the weekend before.</span>
+      </section>
+
+
+      <section id="calendar" class="calendar" aria-live="polite"></section>
+    </main>
+    <footer>
+      <p>Travel planner pipeline made by <a href="https://github.com/day-lee" target="_blank" rel="noopener noreferrer">Daylee 2026</a></p>
+    </footer>
+    <script src="app.js"></script>
+  </body>
+</html>
