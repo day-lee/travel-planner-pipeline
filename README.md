@@ -1,9 +1,12 @@
-# Travel Planner Pipeline
+# [Travel Planner Pipeline](https://day-lee.github.io/travel-planner-pipeline/)
 A project to collect travel weather and UK bank holiday data, transforming it through structured SQL layers to support travel destination decision-making.
 <p align="center">
-  <img src="images/dashboard.png" alt="Travel off-peak planner dashboard" width="800">
+  <a href="https://day-lee.github.io/travel-planner-pipeline/">
+    <img src="images/dashboard.png" alt="Travel planner dashboard" width="800">
+  </a>
+  <br>
+  <a href="https://day-lee.github.io/travel-planner-pipeline/">Open the live dashboard</a>
 </p>
-
 ## The builder
 Hi, I am Dayeon.
 I'm based in London, where I moved three years ago after marrying my British husband.
