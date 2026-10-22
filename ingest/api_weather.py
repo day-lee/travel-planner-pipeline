@@ -1,6 +1,7 @@
 """Fetch and save weather data"""
 
 import json
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -21,6 +22,8 @@ DAILY_VARIABLES = (
     "wind_speed_10m_max",
     "wind_gusts_10m_max",
 )
+REQUEST_TIMEOUT_SECONDS = 30
+MAX_FETCH_ATTEMPTS = 3
 
 def build_params(city: dict) -> dict:
     """Build Open-Meteo query parameters for one city."""
@@ -40,6 +43,28 @@ def build_output_path(city: dict) -> Path:
     return WEATHER_RAW_DIR / filename
 
 
+def fetch_weather(city: dict) -> dict:
+    """Fetch weather data for one city with retries for transient request failures."""
+    last_error = None
+    for attempt in range(1, MAX_FETCH_ATTEMPTS + 1):
+        try:
+            response = requests.get(
+                OPEN_METEO_WEATHER_URL,
+                params=build_params(city),
+                timeout=REQUEST_TIMEOUT_SECONDS,
+            )
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as error:
+            last_error = error
+            if attempt < MAX_FETCH_ATTEMPTS:
+                time.sleep(attempt)
+
+    raise RuntimeError(
+        f"Failed to fetch weather data for {city['city_name']}."
+    ) from last_error
+
+
 def main() -> None:
     """Fetch and persist daily weather data for every configured city."""
     try:
@@ -49,18 +74,7 @@ def main() -> None:
 
     WEATHER_RAW_DIR.mkdir(parents=True, exist_ok=True)
     for city in cities:
-        try:
-            response = requests.get(
-                OPEN_METEO_WEATHER_URL,
-                params=build_params(city),
-                timeout=30,
-            )
-            response.raise_for_status()
-            weather = response.json()
-        except requests.exceptions.RequestException as error:
-            raise RuntimeError(
-                f"Failed to fetch weather data for {city['city_name']}."
-            ) from error
+        weather = fetch_weather(city)
 
         output_path = build_output_path(city)
         output_path.write_text(
