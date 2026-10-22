@@ -45,8 +45,11 @@ It uses two indicators:
 - **[Open-Meteo Weather API](https://open-meteo.com/en/docs)** – daily apparent temperature, rainfall and wind for each city since 2020.
 - **[GOV.UK bank holidays API](https://www.gov.uk/bank-holidays.json)** – this only provides bank holidays, so I estimate school holidays from the bank holidays.
 
-
 ## How it works
+
+<p align="center">
+  <img src="images/elt_pipeline_diagram-travel-planner.png " alt="Diagram" width="100%">
+</p>
 
 `run_pipeline.py` runs the whole pipeline in one command:
 
