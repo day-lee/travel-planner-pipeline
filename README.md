@@ -7,6 +7,7 @@ A project to collect travel weather and UK bank holiday data, transforming it th
   <br>
   <a href="https://day-lee.github.io/travel-planner-pipeline/">Open the live dashboard</a>
 </p>
+
 ## The builder
 Hi, I am Dayeon.
 I'm based in London, where I moved three years ago after marrying my British husband.
